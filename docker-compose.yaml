@@ -1,10 +1,12 @@
 version: "3.3"
 services:
   web:
+    container_name: web
     build:
-      context: ./web
+      context: ./webBuild
     volumes:
-      - ./:/var/www/html
+      - ./app:/var/www
+      - ./app/public:/var/www/html
       - ./var/log:/var/log/php
     ports:
       - "8800:80"

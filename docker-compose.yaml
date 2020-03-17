@@ -1,0 +1,11 @@
+version: "3.3"
+services:
+  web:
+    build:
+      context: ./web
+    volumes:
+      - ./:/var/www/html
+      - ./var/log:/var/log/php
+    ports:
+      - "8800:80"
+    restart: always

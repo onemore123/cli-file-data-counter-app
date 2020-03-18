@@ -12,6 +12,10 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Exception;
 
+/**
+ * Class DataCounterCountCommand
+ * @package App\Command
+ */
 class DataCounterCountCommand extends Command
 {
     protected static $defaultName = 'app:data-counter:count';
@@ -25,6 +29,11 @@ class DataCounterCountCommand extends Command
         ;
     }
 
+    /**
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     * @return int
+     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
@@ -34,6 +43,7 @@ class DataCounterCountCommand extends Command
             $io->note(sprintf('You passed an path argument: %s', $filePath));
         }
 
+        // If no file name, set up the default value
         if ($input->getOption('file_name')) {
             $fileName = $input->getOption('file_name');
         } else {
@@ -51,6 +61,16 @@ class DataCounterCountCommand extends Command
         return 0;
     }
 
+    /**
+     * Get the files value sum
+     *
+     * Recursively iterate over the directory structure and calculate the sum
+     *
+     * @param array $directoriesCount
+     * @param int $sum
+     * @param string $fileName
+     * @return int
+     */
     private function getDirectoriesSum(array $directoriesCount, int $sum, string $fileName): int {
         foreach ($directoriesCount as $key => $directory) {
             $directoryData = array_diff(scandir($directory), ['.', '..']);

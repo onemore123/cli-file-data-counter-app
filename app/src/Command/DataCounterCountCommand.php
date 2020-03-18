@@ -58,13 +58,14 @@ class DataCounterCountCommand extends Command
             $directorySum = 0;
             $directorySubFoldersCount = [];
             foreach ($directoryData as $index => $file) {
-                if(is_dir($file)) {
-                    $directorySubFoldersCount[] = $file;
+                $fullFilePath = $directory . '/' . $file;
+                if(is_dir($fullFilePath)) {
+                    $directorySubFoldersCount[] = $fullFilePath;
                     continue;
                 }
 
                 if($file === $fileName) {
-                    $fileDataValue = file_get_contents($directory . '/' . $file, true);
+                    $fileDataValue = file_get_contents($fullFilePath, true);
                     $directorySum += (int)$fileDataValue;
                 }
             }
@@ -73,7 +74,7 @@ class DataCounterCountCommand extends Command
         }
 
         if(isset($directorySubFoldersCount) && count($directorySubFoldersCount) > 0) {
-            $this->getDirectoriesSum($directorySubFoldersCount, $sum, $fileName);
+            return $this->getDirectoriesSum($directorySubFoldersCount, $sum, $fileName);
         }
 
         return $sum;

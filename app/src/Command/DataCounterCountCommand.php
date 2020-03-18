@@ -21,7 +21,7 @@ class DataCounterCountCommand extends Command
         $this
             ->setDescription('Counts the data values from files where name is equal to the file path argument.')
             ->addArgument('file_path', InputArgument::REQUIRED, 'Required file path argument.')
-            ->addOption('file_name', null, InputOption::VALUE_NONE, 'Optional file name, if not set - count.txt')
+            ->addOption('file_name', null, InputOption::VALUE_OPTIONAL, 'Optional file name, if not set - count.txt')
         ;
     }
 
@@ -31,7 +31,7 @@ class DataCounterCountCommand extends Command
         $filePath = $input->getArgument('file_path');
 
         if ($filePath) {
-            $io->note(sprintf('You passed an path argument: %s', $$filePath));
+            $io->note(sprintf('You passed an path argument: %s', $filePath));
         }
 
         if ($input->getOption('file_name')) {
@@ -58,7 +58,7 @@ class DataCounterCountCommand extends Command
             $directorySum = 0;
             $directorySubFoldersCount = [];
             foreach ($directoryData as $index => $file) {
-                if(is_dir) {
+                if(is_dir($file)) {
                     $directorySubFoldersCount[] = $file;
                     continue;
                 }
@@ -72,7 +72,7 @@ class DataCounterCountCommand extends Command
             $sum += $directorySum;
         }
 
-        if(count($directorySubFoldersCount) > 0) {
+        if(isset($directorySubFoldersCount) && count($directorySubFoldersCount) > 0) {
             $this->getDirectoriesSum($directorySubFoldersCount, $sum, $fileName);
         }
 
